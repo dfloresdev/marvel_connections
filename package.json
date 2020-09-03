@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/dfloresdev/marvel_connections/issues"
   },
-  "homepage": "https://github.com/dfloresdev/marvel_connections#readme"
+  "homepage": "https://github.com/dfloresdev/marvel_connections#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
 }
