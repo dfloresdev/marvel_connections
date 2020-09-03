@@ -82,10 +82,14 @@ function runAllPromises(req, res, arrayPromises) {
   Promise.all(arrayPromises).then(
     (values) => {
       values.map((elements) => {
-        editors.push(...elements.editors);
-        writers.push(...elements.writers);
-        colorists.push(...elements.colorist);
+        editors.push(...new Set(elements.editors));
+        writers.push(...new Set(elements.writers));
+        colorists.push(...new Set(elements.colorist));
       });
+      editors = [...new Set(editors)];
+      writers = [...new Set(writers)];
+      colorists = [...new Set(colorists)];
+
       let options = {
         year: "numeric",
         month: "numeric",
