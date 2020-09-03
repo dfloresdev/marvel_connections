@@ -13,6 +13,6 @@ app.get("/", function (req, res) {
   res.send("Hello World ");
 });
 
-app.listen(config.api.port, () => {
-  console.log(`Running -> ${config.api.host}:${config.api.port}`);
+app.listen(config.marvel.port, () => {
+  console.log(`Running -> ${config.marvel.host}:${config.marvel.port}`);
 });
