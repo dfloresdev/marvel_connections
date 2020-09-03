@@ -1,0 +1,24 @@
+{
+  "name": "marvel_connections",
+  "version": "1.0.0",
+  "description": "In this project you can see the connections between super heroes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfloresdev/marvel_connections.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "marvel",
+    "superhero"
+  ],
+  "author": "David Flores",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfloresdev/marvel_connections/issues"
+  },
+  "homepage": "https://github.com/dfloresdev/marvel_connections#readme"
+}
