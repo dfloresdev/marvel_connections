@@ -9,8 +9,8 @@ module.exports = (injectedStore) => {
     store = require("../../../store/dummy");
   }
 
-  function list() {
-    return store.list(TABLE);
+  function get(id_character) {
+    return store.get(TABLE, id_character);
   }
 
   async function upsert(objCollaborators) {
@@ -19,7 +19,7 @@ module.exports = (injectedStore) => {
   }
 
   return {
-    list,
+    get,
     upsert,
   };
 };

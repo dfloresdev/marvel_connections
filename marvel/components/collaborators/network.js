@@ -4,21 +4,28 @@ const config = require("../../../config");
 const fetch = require("node-fetch");
 const controller = require("./index");
 const { getTotalPages, promiseTemplate, runAllPromises } = require("./utils");
+const templateResponse = require("../../../network/response");
 
 router.get("/:character", get);
 router.get("/syncup/:character", syncUp);
 
-function upsert(objCollaborators, res) {
+function upsert(objCollaborators, res, next) {
   const collaborators = controller
     .upsert(objCollaborators)
     .then((responseMongo) => {
-      res.json(responseMongo);
+      templateResponse.success(null, res, "perfect timing", 200);
     })
-    .catch((err) => res.json(err));
+    .catch(next);
 }
 
-function get(req, res) {
-  res.send(`calling character ${req.params.character}`);
+function get(req, res, next) {
+  const ID = req.params.character.toLowerCase();
+  const collaborators = controller
+    .get(ID)
+    .then((responseMongo) => {
+      templateResponse.success(req, res, responseMongo, 200);
+    })
+    .catch(next);
 }
 
 function syncUp(req, res) {
@@ -39,10 +46,10 @@ function syncUp(req, res) {
         }
 
         const objCollaborators = await runAllPromises(arrayPromises);
-
+        objCollaborators.id_character = info.data.results[0].name.toLowerCase();
         upsert(objCollaborators, res);
       } else {
-        res.json("Character not found");
+        templateResponse.success(req, res, "Character not found", 200);
       }
     })
     .catch((error) => console.log(error));

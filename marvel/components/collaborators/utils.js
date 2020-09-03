@@ -74,7 +74,6 @@ function runAllPromises(arrayPromises) {
         resolve(response);
       },
       (reason) => {
-        console.log(reason);
         reject(reason);
       },
     );

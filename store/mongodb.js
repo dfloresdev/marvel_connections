@@ -13,19 +13,26 @@ console.log("[DB Connection] successfully");
 
 async function list(table) {
   if (table === "collaborators") {
-    const employees = ModelCollaborators.find();
-    return employees;
+    const collaborators = ModelCollaborators.find();
+    return collaborators;
+  }
+}
+
+async function get(table, id) {
+  if (table === "collaborators") {
+    const character = ModelCollaborators.findOne({ id_character: id });
+    return character;
   }
 }
 
 async function upsert(table, data) {
-  data._id = data.id;
-
   if (table === "collaborators") {
-    let exist = await ModelCollaborators.findOne({ _id: data._id });
+    let exist = await ModelCollaborators.findOne({
+      id_character: data.id_character,
+    });
     if (exist) {
-      exist.update(data, (err) => {
-        if (err) console.log(err);
+      exist.updateOne(data, (err) => {
+        if (err) console.error(err);
       });
     } else {
       const collaborators = new ModelCollaborators(data);
@@ -38,4 +45,5 @@ async function upsert(table, data) {
 module.exports = {
   list,
   upsert,
+  get,
 };
