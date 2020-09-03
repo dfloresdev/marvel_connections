@@ -6,12 +6,11 @@ const fetch = require("node-fetch");
 router.get("/syncup/:character", syncUp);
 router.get("/:character", get);
 
-function get(req, res, next) {
+function get(req, res) {
   res.send(`calling character ${req.params.character}`);
 }
 
 function syncUp() {
-  //find id character
   const CHARACTER_NAME = req.params.character;
   fetch(
     `https://gateway.marvel.com/v1/public/characters?name=${CHARACTER_NAME}&ts=${config.api.ts}&apikey=${config.api.apikey}&hash=${config.api.hash}`,

@@ -10,4 +10,8 @@ module.exports = {
     apikey: process.env.APIKEY,
     hash: process.env.HASH,
   },
+  mongodb: {
+    user: process.env.MONGO_USER,
+    pass: process.env.MONGO_PASS,
+  },
 };

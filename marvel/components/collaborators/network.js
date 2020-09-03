@@ -2,49 +2,22 @@ const express = require("express");
 const router = express.Router();
 const config = require("../../../config");
 const fetch = require("node-fetch");
-const { response } = require("express");
+const controller = require("./index");
+const { getTotalPages, promiseTemplate, runAllPromises } = require("./utils");
 
 router.get("/:character", get);
 router.get("/syncup/:character", syncUp);
 
-let promiseTemplate = (uri, offset) => {
-  let editors = [];
-  let writers = [];
-  let colorists = [];
-  let response = {};
-  return new Promise((resolve, reject) => {
-    fetch(
-      `${uri}?limit=100&offset=${offset}&ts=${config.api.ts}&apikey=${config.api.apikey}&hash=${config.api.hash}`,
-    )
-      .then((res) => res.json())
-      .then((info) => {
-        info.data.results.map((element) => {
-          element.creators.items.map((human) => {
-            switch (human.role) {
-              case "editor":
-                editors.push(human.name);
-                break;
-              case "writer":
-                writers.push(human.name);
-                break;
-              case "colorist":
-                colorists.push(human.name);
-                break;
-            }
-          });
-        });
-        response = {
-          editors: editors,
-          writers: writers,
-          colorist: colorists,
-        };
-        resolve(response);
-      })
-      .catch((error) => reject(error));
-  });
-};
+function upsert(objCollaborators, res) {
+  const collaborators = controller
+    .upsert(objCollaborators)
+    .then((responseMongo) => {
+      res.json(responseMongo);
+    })
+    .catch((err) => res.json(err));
+}
 
-function get(req, res, next) {
+function get(req, res) {
   res.send(`calling character ${req.params.character}`);
 }
 
@@ -65,67 +38,14 @@ function syncUp(req, res) {
           arrayPromises.push(promiseTemplate(URI, offsets));
         }
 
-        runAllPromises(req, res, arrayPromises);
+        const objCollaborators = await runAllPromises(arrayPromises);
+
+        upsert(objCollaborators, res);
       } else {
         res.json("Character not found");
       }
     })
     .catch((error) => console.log(error));
-}
-
-function runAllPromises(req, res, arrayPromises) {
-  let editors = [];
-  let writers = [];
-  let colorists = [];
-  let response = {};
-
-  Promise.all(arrayPromises).then(
-    (values) => {
-      values.map((elements) => {
-        editors.push(...new Set(elements.editors));
-        writers.push(...new Set(elements.writers));
-        colorists.push(...new Set(elements.colorist));
-      });
-      editors = [...new Set(editors)];
-      writers = [...new Set(writers)];
-      colorists = [...new Set(colorists)];
-
-      let options = {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      };
-      let fecha = new Date();
-
-      response = {
-        last_sync: fecha.toLocaleDateString("es-ES", options),
-        editors: editors,
-        writers: writers,
-        colorist: colorists,
-      };
-      res.json(response);
-    },
-    (reason) => {
-      console.log(reason);
-    },
-  );
-}
-
-function getTotalPages(uri) {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `${uri}?limit=1&ts=${config.api.ts}&apikey=${config.api.apikey}&hash=${config.api.hash}`,
-    )
-      .then((res) => res.json())
-      .then((info) => {
-        const offset = Math.ceil(info.data.total / 100);
-        resolve(offset);
-      })
-      .catch((error) => reject(error));
-  });
 }
 
 module.exports = router;
