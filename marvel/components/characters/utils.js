@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const config = require("../../../config");
 
-let promiseTemplate = (uri, offset) => {
+let promiseTemplate = (uri, offset, name) => {
   let response = [];
   return new Promise((resolve, reject) => {
     fetch(
@@ -11,7 +11,7 @@ let promiseTemplate = (uri, offset) => {
       .then((info) => {
         info.data.results.map((element) => {
           element.characters.items.map((character) => {
-            if (character.name.toLowerCase() !== "iron man") {
+            if (character.name.toLowerCase() !== name) {
               let findCharacter = response.find((characterResponse, index) => {
                 if (characterResponse.character === character.name) {
                   characterResponse.comics.push(element.title);

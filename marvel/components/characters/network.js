@@ -30,6 +30,7 @@ function get(req, res, next) {
 
 function syncUp(req, res) {
   const CHARACTER_NAME = encodeURI(req.params.character);
+  const TEXT_CHARACTER_NAME = req.params.character.toLowerCase();
 
   fetch(
     `https://gateway.marvel.com/v1/public/characters?name=${CHARACTER_NAME}&ts=${config.api.ts}&apikey=${config.api.apikey}&hash=${config.api.hash}`,
@@ -42,7 +43,7 @@ function syncUp(req, res) {
         let offsets = await getTotalPages(URI);
 
         for (let i = 0; i < offsets; i++) {
-          arrayPromises.push(promiseTemplate(URI, i));
+          arrayPromises.push(promiseTemplate(URI, i, TEXT_CHARACTER_NAME));
         }
 
         const objCollaborators = await runAllPromises(arrayPromises);
