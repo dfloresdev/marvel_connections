@@ -1,6 +1,6 @@
 # :sunglasses: Marvel App :tada:
 
-In this app you can see a superheros and they collaborators, this app have two services:
+In this app you can see a superheros and they collaborators, this app have two services (the frontend run in [this URL](https://marvel.dflores.dev/)) :
 
 ### Service A
 
