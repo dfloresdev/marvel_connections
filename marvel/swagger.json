@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Knows more information about your superhero :D, you can see the server running <a href='https://marvel-4d6ytbdwza-uc.a.run.app'>in this link</a>",
+    "description": "Knows more information about your superhero :D, you can see the server running <a href='https://marvel-4d6ytbdwza-uc.a.run.app'>in this link</a> and the frontend in <a href='https://marvel.dflores.dev/'>this URL</a>",
     "version": "1.0.0",
     "title": "Marvel superheroes",
     "termsOfService": "https://dflores.dev",
