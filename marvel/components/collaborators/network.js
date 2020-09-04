@@ -42,7 +42,7 @@ function syncUp(req, res) {
         let offsets = await getTotalPages(URI);
 
         for (let i = 0; i < offsets; i++) {
-          arrayPromises.push(promiseTemplate(URI, offsets));
+          arrayPromises.push(promiseTemplate(URI, i));
         }
 
         const objCollaborators = await runAllPromises(arrayPromises);
@@ -52,7 +52,7 @@ function syncUp(req, res) {
         templateResponse.success(req, res, "Character not found", 200);
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const db = require("mongoose");
 const config = require("../config");
 const ModelCollaborators = require("../marvel/components/collaborators/model");
+const ModelCharacters = require("../marvel/components/characters/model");
 
 db.Promise = global.Promise;
 
@@ -38,7 +39,18 @@ async function upsert(table, data) {
       const collaborators = new ModelCollaborators(data);
       collaborators.save();
     }
-  } else {
+  } else if (table === "characters") {
+    let exist = await ModelCharacters.findOne({
+      id_character: data.id_character,
+    });
+    if (exist) {
+      exist.updateOne(data, (err) => {
+        if (err) console.error(err);
+      });
+    } else {
+      const collaborators = new ModelCharacters(data);
+      collaborators.save();
+    }
   }
 }
 
