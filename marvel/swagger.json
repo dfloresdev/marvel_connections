@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Knows more information about your superhero :D",
+    "description": "Knows more information about your superhero :D, you can see the server running <a href='https://marvel-4d6ytbdwza-uc.a.run.app'>in this link</a>",
     "version": "1.0.0",
     "title": "Marvel superheroes",
     "termsOfService": "https://dflores.dev",
@@ -13,7 +13,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:3000",
+  "host": "marvel-4d6ytbdwza-uc.a.run.app",
   "basePath": "/marvel",
   "tags": [
     {
