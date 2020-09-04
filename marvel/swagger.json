@@ -1,0 +1,274 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Knows more information about your superhero :D",
+    "version": "1.0.0",
+    "title": "Marvel superheroes",
+    "termsOfService": "https://dflores.dev",
+    "contact": {
+      "email": "hello@dflores.dev"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/marvel",
+  "tags": [
+    {
+      "name": "Collaborators",
+      "description": "Everything about your Pets",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Characters",
+      "description": "Access to Petstore orders"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/collaborators/{nameSuperhero}": {
+      "get": {
+        "tags": ["Collaborators"],
+        "summary": "Get editors, writers and colorist about the same super hero",
+        "description": "",
+        "operationId": "getColl",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "nameSuperhero",
+            "in": "path",
+            "description": "Name of superhero",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Collaborators"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Superhero not found"
+          }
+        }
+      }
+    },
+    "/collaborators/syncup/{nameSuperhero}": {
+      "get": {
+        "tags": ["Collaborators"],
+        "summary": "Sync editors, writers and colorist with the same superhero",
+        "description": "",
+        "operationId": "getSyncup",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "nameSuperhero",
+            "in": "path",
+            "description": "Name of superhero",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Superhero not found"
+          }
+        }
+      }
+    },
+    "/characters/{nameSuperhero}": {
+      "get": {
+        "tags": ["Characters"],
+        "summary": "Get the superhero with they collaborators",
+        "description": "",
+        "operationId": "getChar",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "nameSuperhero",
+            "in": "path",
+            "description": "Name of superhero",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Characters"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Superhero not found"
+          }
+        }
+      }
+    },
+    "/character/syncup/{nameSuperhero}": {
+      "get": {
+        "tags": ["Characters"],
+        "summary": "Sync the superhero with they collaborators",
+        "description": "",
+        "operationId": "getSyncupChar",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "nameSuperhero",
+            "in": "path",
+            "description": "Name of superhero",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Superhero not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Collaborators": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "last_sync": {
+              "type": "string",
+              "format": "dd/mm/yy hh:mm:ss"
+            },
+            "id_character": {
+              "type": "string"
+            },
+            "editors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "writers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "colorist": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Characters": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "last_sync": {
+              "type": "string",
+              "format": "dd/mm/yy hh:mm:ss"
+            },
+            "id_character": {
+              "type": "string"
+            },
+            "characters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "character": {
+                    "type": "string"
+                  },
+                  "comics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about of developer",
+    "url": "https://dflores.dev"
+  }
+}
