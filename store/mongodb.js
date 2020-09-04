@@ -23,6 +23,9 @@ async function get(table, id) {
   if (table === "collaborators") {
     const character = ModelCollaborators.findOne({ id_character: id });
     return character;
+  } else if (table === "characters") {
+    const character = ModelCharacters.findOne({ id_character: id });
+    return character;
   }
 }
 
