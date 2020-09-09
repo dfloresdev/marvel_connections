@@ -130,7 +130,7 @@
         }
       }
     },
-    "/character/syncup/{nameSuperhero}": {
+    "/characters/syncup/{nameSuperhero}": {
       "get": {
         "tags": ["Characters"],
         "summary": "Sync the superhero with they collaborators",
